@@ -7,6 +7,8 @@ export class Sprite extends Model<Sprite>
     id! : number;
 
     @Column( DataType.TEXT )
-    sprite_path!: string;
+    sprite_name! : string;
 
+    @Column( DataType.TEXT )
+    sprite_path!: string;
 }

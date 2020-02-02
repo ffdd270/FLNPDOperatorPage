@@ -24,6 +24,7 @@ export class CharacterCreateParam
     user_id : string;
     story_id : number;
     skill_set_id! : number;
+    sprite_id! : number;
     // DB LINK
 
     constructor( name: string, user_id : string, story_id : number )
@@ -47,6 +48,7 @@ export class CharacterCreateParam
             user_id: this.user_id,
             story_id: this.story_id,
             skill_set_id: this.skill_set_id,
+            sprite_id: this.sprite_id,
         }
     }
 }
