@@ -74,6 +74,11 @@ export class CharacterController
         return new_character;
     }
 
+    static async GetAllCharacter( ) : Promise< Character[] >
+    {
+        return Character.findAll();
+    }
+
     static async FindAllCharacterByUser( user_model : User ) : Promise< Character[] | boolean >
     {
         let user_id = user_model.id;
