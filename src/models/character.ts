@@ -42,6 +42,9 @@ export class Character extends Model<Character>
     //@ForeignKey(() => )
     @Column(DataType.INTEGER)
     skill_set_id! : number;
+
+    @Column(DataType.INTEGER)
+    sprite_id! : number;
     // DB LINK
 
     @Column(DataType.DATE)
