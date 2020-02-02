@@ -7,7 +7,7 @@ import crypto from "crypto";
 
 import {expect} from "chai";
 
-describe( 'User Model Test', ()=>
+describe( 'User Test', ()=>
 {
     const sequelize = new Sequelize( {
         database: "test user db",

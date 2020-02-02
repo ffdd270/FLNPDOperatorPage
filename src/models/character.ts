@@ -19,7 +19,6 @@ export class Character extends Model<Character>
     sex! : string;
     //Char Desc
 
-
     // STATS
     @Column(DataType.INTEGER)
     max_hp! : number;
@@ -38,7 +37,7 @@ export class Character extends Model<Character>
 
     @ForeignKey(() => Story)
     @Column(DataType.INTEGER)
-    story_id! : string;
+    story_id! : number;
 
     //@ForeignKey(() => )
     @Column(DataType.INTEGER)

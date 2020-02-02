@@ -1,5 +1,14 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  if title
+    h1= title
+    p Welcome to #{title}
+  else
+    h1 계정 만들기.
+    button(onclick="move()") Create Account
+
+  script.
+    function move() {
+      window.location.href = "/create_account";
+    }

@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    h1= title
+
+
+
+    form( action='/create_account', method='post')
+        p id
+            input(type="text" name='id')
+        p password
+            input(type="text" name='password')
+        p
+            input(type="submit")

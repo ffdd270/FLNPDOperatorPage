@@ -1,15 +1,17 @@
 import express from 'express';
 import path from 'path';
 import indexRouter from './routes/index'
-import {sequelize} from './controller/sqlite-controller-example'
-import {ModelExample} from "./models/sqlite-model-example";
-import {QueryInterface} from "sequelize";
+import createAccountRouter from './routes/create_account'
+
+import {User} from './models/user';
+import {Character} from './models/character';
+import {Database} from "./database";
+
+
 
 (async () => {
-    await sequelize.sync({force: true});
+    await Database.AddModels([User, Character]);
 })();
-
-console.log("INITED!");
 
 // 타입스크립트 트레이스 백 지원.
 require('source-map-support').install();
@@ -21,6 +23,9 @@ app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'jade');
 app.set('port', 3000);
 
+app.use(express.urlencoded());
+
 app.use('/', indexRouter);
+app.use('/create_account', createAccountRouter);
 
 export default app;

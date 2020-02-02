@@ -1,5 +1,6 @@
 import express, {NextFunction, Request, Response} from 'express';
-import {ModelExample} from "../models/sqlite-model-example";
+import {UserController} from "../controller/user";
+import {User} from "../models/user";
 
 // 클래스, 네임 스페이스에서 가져올  함수들.
 
@@ -7,12 +8,22 @@ const router = express.Router();
 
 router.get( '/', async function( request : Request, response : Response, next : NextFunction )
 {
-    let model_example = await ModelExample.create( { id:2, name:'HaruGakka' } );
-    model_example.name = 'HaruGakka';
-    await model_example.save();
+    let id = 'ffdd270';
+    let user_exist = await UserController.FindUser(id) ;
 
-    let name =  model_example.name;
-    response.render('index', { title: name });
+    let title : string | null;
+
+    if( user_exist == false)
+    {
+        title = null;
+    }
+    else
+    {
+        let user : User  = <User>(user_exist);
+        title = user.name;
+    }
+
+    response.render('index', { title: title });
 });
 
 export = router

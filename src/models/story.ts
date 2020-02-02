@@ -5,5 +5,4 @@ export class Story extends Model<Story>
 {
     @Column( {primaryKey: true, type: DataType.INTEGER} )
     id! : number;
-
 }
