@@ -1,7 +1,7 @@
 import {Sequelize} from "sequelize-typescript";
 import {User} from "../models/user";
-import {UserController} from "../controller/user";
-import {UserAction} from "../action/user";
+import {UserController} from "../controllers/user";
+import {UserAction} from "../actions/user";
 
 import crypto from "crypto";
 

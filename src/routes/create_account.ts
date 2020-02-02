@@ -1,5 +1,5 @@
 import express, {NextFunction, Request, Response} from 'express';
-import {CharacterController} from "../controller/character";
+import {CharacterController} from "../controllers/character";
 
 const router = express.Router();
 

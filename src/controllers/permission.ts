@@ -1,16 +1,9 @@
 import {User} from "../models/user";
 import {Story} from "../models/story";
-import {Permission} from "../models/permission";
-
-export enum Permissions
-{
-    Player = 0,
-    OP,
-}
+import {Permission, Permissions} from "../models/permission";
 
 export class PermissionController
 {
-
     static async AddPermission( user_model : User,  story_model : Story, permissions : Permissions ) : Promise<Permission|boolean>
     {
         let permission_exist = await this.FindPermission( user_model, story_model );

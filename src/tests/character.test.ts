@@ -1,12 +1,12 @@
 import {Sequelize} from "sequelize-typescript";
 import {Character} from "../models/character";
-import {CharacterController, CharacterCreateParam} from "../controller/character";
+import {CharacterController, CharacterCreateParam} from "../controllers/character";
 import {Database} from "../database";
 
 import {User} from "../models/user";
-import {UserController} from "../controller/user";
+import {UserController} from "../controllers/user";
 import {expect} from "chai";
-import beginningOfLine = Mocha.reporters.Base.cursor.beginningOfLine;
+import {TestHelper} from "./test_helper.test";
 
 describe( 'Character Test', ()=>
 {
@@ -16,35 +16,11 @@ describe( 'Character Test', ()=>
         await Database.AddModels( [Character, User] );
     }
 
-    async function makeUser( id : string ) : Promise< User >
-    {
-        let user : User | boolean = await UserController.AddUser(id, "hash", "HaruGakka");
-        expect(user).not.equal( false );
-
-        return <User>(user);
-    }
-
-    async function makeCharacter( user_model : User, name : string, story_id : number ) : Promise< Character >
-    {
-        const count = await Character.count();
-        let create_params : CharacterCreateParam = new CharacterCreateParam( name, user_model.id, story_id );
-        let character : Character | boolean = await CharacterController.AddCharacter( user_model, create_params );
-
-        expect(character).not.equal( false );
-
-        let character_model = <Character>( character );
-        expect(character_model.user_id).to.equal(user_model.id);
-        expect(character_model.id).to.equal( count );
-        expect(character_model.name).to.equal(name);
-
-        return character_model;
-    }
-
     it(" create character.", async ()=>
     {
         await initDataBase();
-        let user_model = await makeUser( "ffdd270" );
-        let character_model =  await makeCharacter( user_model, "키리사키 키리코", 1 );
+        let user_model = await TestHelper.makeUser( "ffdd270" );
+        let character_model =  await TestHelper.makeCharacter( user_model, "키리사키 키리코", 1 );
 
         console.log(character_model);
     });
@@ -52,18 +28,18 @@ describe( 'Character Test', ()=>
     it( "create characters.", async ()=>
     {
         await initDataBase();
-        let user_model = await makeUser( "ffdd270");
+        let user_model = await TestHelper.makeUser( "ffdd270");
 
-        await makeCharacter( user_model, "키리사키 키리코", 1 );
-        await makeCharacter( user_model, "키리사키 키사키", 1 );
+        await TestHelper.makeCharacter( user_model, "키리사키 키리코", 1 );
+        await TestHelper.makeCharacter( user_model, "키리사키 키사키", 1 );
     });
 
     it( "create exist character.", async ()=>
     {
         await initDataBase();
-        let user_model = await makeUser("HaruGak");
+        let user_model = await TestHelper.makeUser("HaruGak");
 
-        await makeCharacter( user_model, "키리키리", 1 );
+        await TestHelper.makeCharacter( user_model, "키리키리", 1 );
         let create_params : CharacterCreateParam = new CharacterCreateParam( "키리키리", user_model.id, 1 );
 
         let exist_character : Character | boolean = await CharacterController.AddCharacter( user_model, create_params );
@@ -77,15 +53,15 @@ describe( 'Character Test', ()=>
     it( "get all user characters.", async() =>
     {
         await initDataBase();
-        let user_model1 = await makeUser( "HaruGakka");
-        let user_model2 = await makeUser( "ffdd270");
+        let user_model1 = await TestHelper.makeUser( "HaruGakka");
+        let user_model2 = await TestHelper.makeUser( "ffdd270");
 
-        await makeCharacter( user_model1, "키리사키 키리코", 1 );
-        await makeCharacter( user_model1, "키리사키 씨", 1 );
-        await makeCharacter( user_model1, "키리사키 키리코(보스)", 1 );
+        await TestHelper.makeCharacter( user_model1, "키리사키 키리코", 1 );
+        await TestHelper.makeCharacter( user_model1, "키리사키 씨", 1 );
+        await TestHelper.makeCharacter( user_model1, "키리사키 키리코(보스)", 1 );
 
-        await makeCharacter( user_model2, "하루가카", 1 );
-        await makeCharacter( user_model2, "하루가카 ( 보스 ) ", 1 );
+        await TestHelper.makeCharacter( user_model2, "하루가카", 1 );
+        await TestHelper.makeCharacter( user_model2, "하루가카 ( 보스 ) ", 1 );
 
         let characters = await CharacterController.FindAllCharacterByUser( user_model1 );
         expect(characters).not.equal( false );

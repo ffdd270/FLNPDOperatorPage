@@ -1,5 +1,5 @@
 import express, {NextFunction, Request, Response} from 'express';
-import {UserController} from "../controller/user";
+import {UserController} from "../controllers/user";
 import {User} from "../models/user";
 
 // 클래스, 네임 스페이스에서 가져올  함수들.

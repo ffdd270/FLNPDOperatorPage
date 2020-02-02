@@ -21,11 +21,11 @@ const app = express();
 
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'jade');
-app.set('port', 3000);
+app.set('port', 5000);
 
 app.use(express.urlencoded());
 
-app.use('/', indexRouter);
-app.use('/create_account', createAccountRouter);
+app.use('/api/index', indexRouter);
+app.use('/api/create_account', createAccountRouter);
 
 export default app;

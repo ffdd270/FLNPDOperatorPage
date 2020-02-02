@@ -24,4 +24,10 @@ export class UserController
         return user_exist;
     }
 
+    static async SetAdmin( user_model : User )
+    {
+        user_model.permission = "ADMIN";
+        await user_model.save();
+    }
+
 }

@@ -3,6 +3,15 @@ import {Table, Column, Model, HasMany, DataType, ForeignKey} from 'sequelize-typ
 import {User} from "./user";
 import {Story} from "./story";
 
+
+export enum Permissions
+{
+    Player = 0,
+    OP,
+    Owner
+}
+
+
 @Table
 export class Permission extends Model<Permission>
 {
@@ -11,7 +20,7 @@ export class Permission extends Model<Permission>
 
     @ForeignKey( ()=>Story)
     @Column(DataType.INTEGER)
-    story_id! : string;
+    story_id! : number;
 
     @ForeignKey(()=>User)
     @Column(DataType.TEXT)

@@ -1,6 +1,8 @@
 import {Character} from "../models/character";
 import {User} from "../models/user";
-import {Column, DataType, ForeignKey} from "sequelize-typescript";
+import {Permission, Permissions} from "../models/permission";
+import {PermissionController} from "./permission";
+import {StoryController} from "./story";
 import {Story} from "../models/story";
 
 
@@ -108,6 +110,28 @@ export class CharacterController
         return characters_array;
     }
 
+    static async GetCharacterPermission( char_model : Character, user_model : User ) : Promise<Permissions>
+    {
+        let user_id = char_model.user_id;
+        if( user_id == user_model.id )
+        {
+            return Permissions.Owner;
+        }
 
+        let story =  await StoryController.FindStoryById( char_model.story_id );
+        if ( story == false )
+        {
+            return Permissions.Player;
+        }
 
+        let story_model = <Story>( story );
+        let permissions = await PermissionController.FindPermission( user_model, story_model );
+
+        if ( permissions == false )
+        {
+            return Permissions.Player;
+        }
+
+        return (<Permission>(permissions)).permission;
+    }
 }

@@ -13,7 +13,7 @@ export class Database
 
     static async ClearDatabase( )
     {
-        this.sequelize.drop();
+        await this.sequelize.drop();
         await this.sequelize.sync();
     }
 
