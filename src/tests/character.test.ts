@@ -69,4 +69,24 @@ describe( 'Character Test', ()=>
         let model_characters : Character[] = <Character[]>(characters);
         expect(model_characters.length).to.equal( 3 );
     });
+
+    it("remove character.", async () =>
+    {
+        await initDataBase();
+
+        let user_model1 = await TestHelper.makeUser( "HaruGakka");
+
+        let remove_character = await TestHelper.makeCharacter( user_model1, "키리사키 키리코", 1 );
+        let exist_character =  await TestHelper.makeCharacter( user_model1, "키리사키 씨", 1 );
+
+        let removed = await CharacterController.DeleteCharacter( remove_character.id );
+        expect(removed).to.equal(true);
+        
+        let find = await CharacterController.FindCharacterById( remove_character.id );
+        expect( find ).to.equal( false );
+        
+        find = await CharacterController.FindCharacterById(exist_character.id);
+        expect( find ).not.equal( false );
+
+    });
 });

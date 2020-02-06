@@ -117,6 +117,31 @@ export class CharacterController
         return characters_array;
     }
 
+    static async FindCharacterById( id : number ) : Promise<Character | boolean>
+    {
+        let character : Character | null = await Character.findOne( { where: { id: id } }  );
+
+        if ( character == null )
+        {
+            return false;
+        }
+
+        return character;
+    }
+
+    static async DeleteCharacter( id : number ) : Promise<boolean>
+    {
+        let count = await Character.destroy({where: { id: id } } );
+
+        if( count == 0 )
+        {
+            return false;
+        }
+        return true;
+    }
+
+
+
     static async GetCharacterPermission( char_model : Character, user_model : User ) : Promise<Permissions>
     {
         let user_id = char_model.user_id;

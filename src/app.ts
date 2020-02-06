@@ -4,6 +4,7 @@ import indexRouter from './routes/index'
 import createAccountRouter from './routes/create_account'
 import getCharactersRouter from './routes/get_characters'
 import createCharacterRouter from './routes/create_character'
+import removeCharacterRouter from './routes/remove_character'
 
 import {User} from './models/user';
 import {Character} from './models/character';
@@ -54,5 +55,6 @@ app.use('/api/index', indexRouter);
 app.use('/api/create_account', createAccountRouter);
 app.use('/api/get_characters', getCharactersRouter);
 app.use('/api/create_character', createCharacterRouter);
+app.use('/api/remove_character', removeCharacterRouter);
 
 export default app;

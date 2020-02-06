@@ -63,7 +63,7 @@ class CharacterResponse
     }
 }
 
-router.get('/', async function ( request : Request, response : Response)
+router.get('/', async function ( request : Request, response : Response )
 {
     let characters : Character[] = await CharacterController.GetAllCharacter();
     let responses : Object[] = [];
