@@ -17,7 +17,9 @@ const upload = multer({dest: './uploads'});
 
 router.post('/', upload.single('sprite'), async function( request : Request, response : Response)
 {
-    let image_path = '/image/' + request.file.filename;
+    request.file.filename  = request.file.filename == '' ? "" : request.file.filename;
+
+    let image_path = '/image/' + request.file.filename ;
 
     let name = request.body.name;
     let age = request.body.age;

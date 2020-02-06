@@ -5,7 +5,7 @@ import {Story} from "./story";
 @Table
 export class Character extends Model<Character>
 {
-    @Column( {primaryKey: true, type: DataType.INTEGER} )
+    @Column( {primaryKey: true, type: DataType.INTEGER, autoIncrement: true} )
     id! : number;
 
     //Char Desc

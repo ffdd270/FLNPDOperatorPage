@@ -1,3 +1,8 @@
+// 타입스크립트 트레이스 백 지원.
+require('source-map-support').install();
+process.on('unhandledRejection', console.log);
+
+// API Server Import.
 import express from 'express';
 import path from 'path';
 import indexRouter from './routes/index'
@@ -28,7 +33,6 @@ async function makeStory(user_model : User, name : string, desc : string ) : Pro
     return <Story>(story);
 }
 
-
 (async () => {
     await Database.AddModels([User, Character, Story, Sprite]);
     let user = await makeUser("test_account");
@@ -36,10 +40,6 @@ async function makeStory(user_model : User, name : string, desc : string ) : Pro
 
     await makeStory(user, 'test_story', '이게 테스트입니다. \n 집에 가고 싶어요- \n 사장님 여기 짜장면 4그릇 추가요- 이ㅅ라샤이마세[')
 })();
-
-// 타입스크립트 트레이스 백 지원.
-require('source-map-support').install();
-process.on('unhandledRejection', console.log);
 
 const app = express();
 
@@ -57,4 +57,5 @@ app.use('/api/get_characters', getCharactersRouter);
 app.use('/api/create_character', createCharacterRouter);
 app.use('/api/remove_character', removeCharacterRouter);
 
+// API SERVER INIT END.
 export default app;

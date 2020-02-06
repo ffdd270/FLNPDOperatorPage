@@ -36,7 +36,7 @@ export class CharacterCreateParam
         this.max_ap = 100;
     }
 
-    MakeObject( id : number ) : object
+    MakeObject( id? : number ) : object
     {
         return {
             id: id,
@@ -69,8 +69,7 @@ export class CharacterController
         }
 
         // On After Check
-        let id : number = await Character.count();
-        let new_character = await new Character( char_params.MakeObject( id ) );
+        let new_character = await new Character( char_params.MakeObject() );
         await new_character.save();
 
         return new_character;
