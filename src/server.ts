@@ -14,7 +14,7 @@ const server = http.createServer( app );
 
 // Socket Init Start.
 const io = SocketIO(server);
-
+connection_on( io );
 
 server.listen( app.get('port'), () =>{
     console.log(
@@ -23,23 +23,6 @@ server.listen( app.get('port'), () =>{
     );
 
 } );
-
-io.on('connection', function ( socket : SocketIO.Socket)
-{
-    console.log( 'user connection.');
-    socket.broadcast.emit("hi");
-
-    socket.on('disconnect', function(){
-        console.log('user disconnected');
-    });
-
-    socket.on('chatMessage', function(msg)
-    {
-        console.log('chatMessage.' + msg);
-        io.emit('chatMessage', msg);
-    })
-});
-
 
 io.attach( server );
 
