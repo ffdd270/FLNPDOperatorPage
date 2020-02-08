@@ -19,8 +19,8 @@ export class Skill extends Model<Skill>
 
     // CS 효과 명시.
     @ForeignKey(() => CS )
-    @Column
-    cs_key! : number;
+    @Column( DataType.TEXT )
+    cs_key! : string;
 
     @Column(DataType.INTEGER)
     cs_active_turn!: number; // CS 적용 턴

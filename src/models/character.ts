@@ -1,6 +1,8 @@
 import {Table, Column, Model, HasMany, DataType, ForeignKey} from 'sequelize-typescript';
+import {SkillSet} from "./skill_set";
 import {User} from "./user";
 import {Story} from "./story";
+import {Sprite} from "./sprite";
 
 @Table
 export class Character extends Model<Character>
@@ -28,6 +30,9 @@ export class Character extends Model<Character>
 
     @Column(DataType.INTEGER)
     att! : number;
+
+    @Column(DataType.FLOAT)
+    att_acc! : number; //정확도
     // STATS
 
     // DB LINK
@@ -39,13 +44,14 @@ export class Character extends Model<Character>
     @Column(DataType.INTEGER)
     story_id! : number;
 
-    //@ForeignKey(() => )
+    @ForeignKey(() => SkillSet)
     @Column(DataType.INTEGER)
     skill_set_id! : number;
 
+    @ForeignKey( () => Sprite)
     @Column(DataType.INTEGER)
     sprite_id! : number;
-    // DB LINK
+    // DB LINK END
 
     @Column(DataType.DATE)
     create_time! : Date;

@@ -1,12 +1,12 @@
 
-// 스킬 범위
+// 공격 범위
+import {Unit} from "../instance/unit";
+
 export enum TARGET_ARRANGE
 {
     SINGLE,
     ALL
 }
-
-
 
 export enum SKILL_TYPE
 {
@@ -25,4 +25,17 @@ export enum CS_TIMING
 {
     ATTACK_BEFORE,
     ATTACK_AFTER,
+}
+
+export function FindUnitByUID( uid : number, units : Unit[] ) : Unit | null
+{
+    for ( let unit of units )
+    {
+        if (unit.GetUID() == uid)
+        {
+            return unit;
+        }
+    }
+
+    return null;  // 못 찾음,.
 }

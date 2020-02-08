@@ -10,15 +10,18 @@ export class SkillSet extends Model<SkillSet>
     @Column(DataType.TEXT)
     skill_set_name! : string;
 
-    @ForeignKey(()=> Skill )
-    @Column
+    @Column(DataType.TEXT)
+    skill_set_desc! :string;
+
+    @ForeignKey(()=> Skill)
+    @Column(DataType.INTEGER)
     skill_id1! : number;
 
-    @ForeignKey(()=> Skill )
-    @Column
+    @ForeignKey(()=> Skill)
+    @Column(DataType.INTEGER)
     skill_id2! : number;
 
-    @ForeignKey(()=> Skill )
-    @Column
+    @ForeignKey(()=> Skill)
+    @Column(DataType.INTEGER)
     skill_id3! : number;
 }

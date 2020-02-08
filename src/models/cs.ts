@@ -4,8 +4,8 @@ import {Table, Column, Model, HasMany, DataType, ForeignKey} from 'sequelize-typ
 @Table
 export class CS extends Model<CS>
 {
-    @Column({primaryKey: true, type: DataType.INTEGER, autoIncrement: true})
-    id!: number; // id
+    @Column({primaryKey: true, type: DataType.TEXT})
+    id!: string; // id
 
     @Column(DataType.TEXT)
     name!: string; // 이름
@@ -14,5 +14,5 @@ export class CS extends Model<CS>
     desc!: string; // 설명
 
     @Column(DataType.INTEGER)
-    cs_type!: number; // 버프? 디버프?\
+    cs_type!: number; // 버프? 디버프?
 }

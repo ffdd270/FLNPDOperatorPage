@@ -22,7 +22,7 @@ export namespace TestHelper
 
     export async function makeCharacter( user_model : User, name : string, story_id : number ) : Promise< Character >
     {
-        const count = await Character.count();
+        const count = await Character.count() + 1;
         let create_params : CharacterCreateParam = new CharacterCreateParam( name, user_model.id, story_id );
         let character : Character | boolean = await CharacterController.AddCharacter( user_model, create_params );
 
