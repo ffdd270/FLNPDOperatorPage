@@ -6,10 +6,5 @@ import {SkillSetController} from "../controllers/skill_set";
 export class SkillSetAction
 {
 
-    static CreateSkillSetInstance( skill_set_model : SkillSet, skills : Skill[] ) : SkillSetInstance
-    {
-        //return new SkillSetInstance( skill_set_model, skills );
-    }
-
 
 }

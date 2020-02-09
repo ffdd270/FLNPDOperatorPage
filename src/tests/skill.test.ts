@@ -7,8 +7,6 @@ import {TestHelper} from "./test_helper.test";
 import {Unit} from "../instance/unit";
 import {SkillController} from "../controllers/skill";
 import {CS_TIMING, CS_TYPE, SKILL_TYPE, TARGET_ARRANGE} from "../util/battle_util";
-import {CSController} from "../controllers/cs";
-import {SkillAction} from "../actions/skill";
 import makeSkillWithCS = TestHelper.makeSkillWithCS;
 import {SkillSet} from "../models/skill_set";
 import {SkillSetController} from "../controllers/skill_set";
@@ -63,7 +61,7 @@ describe( "Skill Test", ()=>
     }
 
 
-    it( "Skill set make instance? ", async ()=>
+    it( "Skill Can Add CS? ", async ()=>
     {
         await initDataBase();
 
@@ -82,12 +80,32 @@ describe( "Skill Test", ()=>
         console.log( result );
         expect(result.is_invalid).not.equal( true);
         expect(skill_inst.GetRemainCooltime()).to.equal( skill_inst.cooltime );
-        expect( enemy1.GetCSList().length ).to.equal( 1 );
+        expect(enemy1.GetCSList().length).to.equal( 1 );
+        expect(skill_inst.CheckResource( friend1 )).to.equal( false ) ;
 
         console.log(skill_inst);
         console.log(enemy1.GetCSList());
     });
 
+    it("SKILL CAN ATTACK EVERYONE?", async()=>
+    {
+        await initDataBase();
 
+        let skill_set_inst = await SkillSetController.GetSkillSetInstance( skill_set );
+        friend1.SetSkillSet(<SkillSetInstance>( skill_set_inst ) );
 
+        let skill = friend1.GetSkill( 1 );
+        expect(skill).not.equal( undefined );
+        expect(skill).not.equal( null );
+
+        let skill_inst = <SkillInstance>( skill );
+
+        let result = UnitAction.AttackUnitBySkill( friend1, skill_inst,[enemy1, enemy2]  );
+        console.log( result );
+
+        expect(result.is_invalid).not.equal( true);
+        expect(skill_inst.CheckResource( friend1 )).to.equal( false );
+
+        console.log(skill_inst);
+    });
 });

@@ -131,16 +131,13 @@ export class UnitAction
         {
             let add_cs = attack_skill.CopyCS();
 
-            if ( add_cs == null )
+            if ( add_cs != null )
             {
-                result.is_invalid = true;
-                result.invalid_cause = "CS WAS NULL.";
-                break;
+                attack_target.AddCS( <CSInstance>(add_cs) );
+
             }
 
-            attack_target.AddCS( <CSInstance>(add_cs) );
             let dmg = attack_target.DecHp( attack_skill.damage );
-
             result.damages.set( attack_target.GetUID(), dmg );
         }
 
@@ -191,7 +188,7 @@ export class UnitAction
     }
 
 
-    static AttackUnitBySkill(  attacker : Unit, attack_skill : SkillInstance, targets : Unit[], target : Unit ) : AttackResult
+    static AttackUnitBySkill(  attacker : Unit, attack_skill : SkillInstance, targets : Unit[], target? : Unit ) : AttackResult
     {
         let result = new AttackResult();
 
