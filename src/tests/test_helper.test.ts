@@ -9,6 +9,13 @@ import {PermissionController} from "../controllers/permission";
 import {StoryController} from "../controllers/story";
 
 import {expect} from "chai";
+import {Unit} from "../instance/unit";
+import {Skill} from "../models/skill";
+import {SkillController} from "../controllers/skill";
+import {CS_TIMING, CS_TYPE, SKILL_TYPE, TARGET_ARRANGE} from "../util/battle_util";
+import {CSController} from "../controllers/cs";
+import {CS} from "../models/cs";
+import {SkillAction} from "../actions/skill";
 
 export namespace TestHelper
 {
@@ -35,6 +42,30 @@ export namespace TestHelper
         expect(character_model.name).to.equal(name);
 
         return character_model;
+    }
+
+    export async function makeSkillWithCS( skill_name : string, skill_type : SKILL_TYPE, target_arrange : TARGET_ARRANGE , cs_name : string, cs_type : CS_TYPE, cs_timing : CS_TIMING, cs_turn : number,  cs_active_rate : number )
+    {
+        let skill : Skill | boolean = await SkillController.AddSkill( skill_name, skill_type, target_arrange, 3, 1 );
+        expect(skill).not.equal( false );
+
+        let cs : CS | boolean;
+        cs = await CSController.FindCS( cs_name );
+
+        if ( !cs )
+        {
+            cs = await CSController.AddCS( cs_name, cs_type );
+        }
+
+        expect(cs).not.equal( false );
+
+        let skill_model : Skill = <Skill>( skill );
+        let cs_model : CS = <CS>( cs );
+
+        SkillAction.AddCS( skill_model, cs_model, cs_timing, cs_turn, cs_active_rate );
+        await skill_model.save();
+
+        return skill_model;
     }
 
     export async function makeStory(user_model : User, name : string, desc : string ) : Promise< Story >

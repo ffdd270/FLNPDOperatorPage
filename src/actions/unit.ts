@@ -1,6 +1,9 @@
 import {Unit} from '../instance/unit';
 import {TARGET_ARRANGE} from "../util/battle_util";
 import {Hash} from "crypto";
+import {SkillInstance} from "../instance/skill";
+import {Skill} from "../models/skill";
+import {CSInstance} from "../instance/cs";
 
 export class DiceResult
 {
@@ -19,6 +22,10 @@ export class AttackResult
     // 실패 사유
     is_invalid? : boolean;
     invalid_cause? : string;
+
+    is_skill : boolean = false;
+    skill_name : string = "";
+    skill_id : number = -1;
 
     targets : number[] = []; // UID들.
     damages : Map<number, number> = new Map<number, number>(); // UID에 따른 damage 계수들.
@@ -116,6 +123,30 @@ export class UnitAction
         return result;
     }
 
+    static ProcSkillEachUnits( attacker : Unit, attack_skill : SkillInstance, attack_target_units : Unit[] ) : AttackResult
+    {
+        let result : AttackResult = new AttackResult();
+
+        for ( let attack_target of attack_target_units )
+        {
+            let add_cs = attack_skill.CopyCS();
+
+            if ( add_cs == null )
+            {
+                result.is_invalid = true;
+                result.invalid_cause = "CS WAS NULL.";
+                break;
+            }
+
+            attack_target.AddCS( <CSInstance>(add_cs) );
+            let dmg = attack_target.DecHp( attack_skill.damage );
+
+            result.damages.set( attack_target.GetUID(), dmg );
+        }
+
+        return result;
+    }
+
     static GetTargetUIDs( attack_target_units : Unit[] ) : number[]
     {
         let uids : number[] = [];
@@ -128,16 +159,26 @@ export class UnitAction
         return uids;
     }
 
+    static IsFailedAttack( result : AttackResult, attack_targets : Unit[] | null ) : boolean
+    {
+        if( attack_targets == null || attack_targets.length == 0 )
+        {
+            result.is_invalid = true;
+            result.invalid_cause = "TARGET WAS INVALID.";
+            return false;
+        }
+
+        return true;
+    }
+
     // 평타
     static AttackUnit( attacker : Unit, targets : Unit[], target : Unit ) : AttackResult
     {
         let result = new AttackResult();
         let attack_targets : Unit[] | null = this.GetTargets( TARGET_ARRANGE.SINGLE, targets, target );
 
-        if( attack_targets == null || attack_targets.length == 0 )
+        if( this.IsFailedAttack( result, attack_targets ) )
         {
-            result.is_invalid = true;
-            result.invalid_cause = "TARGET WAS INVALID.";
             return result;
         }
 
@@ -145,6 +186,38 @@ export class UnitAction
 
         result = this.ProcAttackEachUnits( attacker, attack_target_units );
         result.targets = this.GetTargetUIDs( attack_target_units );
+
+        return result;
+    }
+
+
+    static AttackUnitBySkill(  attacker : Unit, attack_skill : SkillInstance, targets : Unit[], target : Unit ) : AttackResult
+    {
+        let result = new AttackResult();
+
+        if ( !attack_skill.CheckResource( attacker ) )
+        {
+            result.is_invalid = true;
+            result.invalid_cause = "NOT HAVE RESOURCE";
+            return result;
+        }
+
+        let attack_targets : Unit[] | null = this.GetTargets( attack_skill.GetTargetArrange(), targets, target );
+
+        if( !this.IsFailedAttack( result, attack_targets ) )
+        {
+            return result;
+        }
+
+        let attack_target_units = <Unit[]>( attack_targets );
+        result = this.ProcSkillEachUnits( attacker, attack_skill, attack_target_units );
+
+        attack_skill.UseSkill();
+
+        result.is_skill = true;
+        result.skill_id = attack_skill.skill_id;
+        result.skill_name = attack_skill.skill_name;
+
 
         return result;
     }

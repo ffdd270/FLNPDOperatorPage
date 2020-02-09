@@ -1,15 +1,18 @@
 import {Unit} from '../instance/unit';
 import {Character} from "../models/character";
-import {CharacterController, CharacterCreateParam} from "../controllers/character";
 import {Database} from "../database";
 
 import {User} from "../models/user";
-import {UserController} from "../controllers/user";
 import {expect} from "chai";
 import {TestHelper} from "./test_helper.test";
-import Test = Mocha.Test;
-import {AttackResult, UnitAction} from "../actions/unit";
-import {FindUnitByUID} from "../util/battle_util";
+import {UnitAction} from "../actions/unit";
+import {CS_TIMING, CS_TYPE, FindUnitByUID, SKILL_TYPE, TARGET_ARRANGE} from "../util/battle_util";
+import {CSInstance} from "../instance/cs";
+import {SkillController} from "../controllers/skill";
+import {SkillAction} from "../actions/skill";
+import {CSController} from "../controllers/cs";
+import {Skill} from "../models/skill";
+import {CS} from "../models/cs";
 
 describe('Unit Test', ()=>
 {
@@ -18,7 +21,7 @@ describe('Unit Test', ()=>
     async function initDataBase( )
     {
         await Database.ClearDatabase();
-        await Database.AddModels( [Character, User] );
+        await Database.AddModels( [Character, User, Skill, CS] );
 
         user_model = await TestHelper.makeUser( "ffdd270" );
     }
@@ -75,4 +78,30 @@ describe('Unit Test', ()=>
 
         console.log( result );
     });
+
+    it( "add cs.", async () =>
+    {
+        await initDataBase();
+
+        let character_model =  await TestHelper.makeCharacter( user_model, "키리사키 키리코", 1 );
+        let kiri_unit = new Unit( character_model, false );
+
+        let skill : Skill | boolean = await SkillController.AddSkill( "키리키리 한 키리",  SKILL_TYPE.ACTIVE, TARGET_ARRANGE.SINGLE,  3, 3 );
+        expect(skill).not.equal( false );
+        let skill_model : Skill = <Skill>(skill);
+
+        let cs = await CSController.AddCS("아픔", CS_TYPE.DEBUF );
+        expect(cs).not.equal( false );
+
+        SkillAction.AddCS( <Skill>(skill), <CS>(cs), CS_TIMING.ATTACK_AFTER, 2, 1 );
+        await skill_model.save();
+
+        kiri_unit.AddCS( new CSInstance( skill_model, <CS>( cs ) ) );
+        kiri_unit.ProcTurn();
+        expect( kiri_unit.GetCSList().length ).to.equal( 1 );
+
+        kiri_unit.ProcTurn();
+        expect( kiri_unit.GetCSList().length ).to.equal( 0 );
+    });
+
 });
