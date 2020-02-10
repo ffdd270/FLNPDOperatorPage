@@ -4,7 +4,7 @@ import app from "./app";
 //Socket Server Import.\
 
 import SocketIO from "socket.io";
-import {connection_on} from "./routes/connection";
+import {connection_on} from "./sockets/connection";
 import * as http from "http";
 
 
