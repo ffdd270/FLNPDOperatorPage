@@ -26,4 +26,9 @@ router.get( '/', async function( request : Request, response : Response, next : 
     response.render('index', { title: title });
 });
 
+router.get('/:id', async function( request : Request, response :Response, next: NextFunction)
+{
+
+});
+
 export = router

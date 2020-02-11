@@ -14,6 +14,17 @@ export function connection_on(  io : SocketIO.Server  )
             socket.emit("welcome", 'Welcome, CLIENT! ${msg.name}');
         });
 
+        socket.on('get_character_by_name', async function( msg )
+        {
+            let story_id = msg.story_id;
+            let name = msg.character_name;
+
+        });
+
+        socket.on('get_character_by_id', async function( msg )
+        {
+        });
+
 
         socket.on('disconnect', function(){
             console.log('user disconnected');
