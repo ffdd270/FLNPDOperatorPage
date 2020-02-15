@@ -13,6 +13,8 @@ router.get('/:id', async  function ( request, response )
 
     let char = await CharacterController.FindCharacterById( parseInt( id ) );
     let char_response = new CharacterResponse( <Character>(char) );
+    await char_response.SetImage( <Character>(char) );
+
 
     response.send( char_response.MakeObject() );
 });
