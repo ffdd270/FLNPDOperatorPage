@@ -14,8 +14,6 @@ router.post('/', async function( request: Request, response: Response )
     let id = request.body.id;
     let password = request.body.password;
 
-    console.log( " TEST ! : ", id, password);
-
     response.send("OK.");
 });
 

@@ -5,13 +5,17 @@ process.on('unhandledRejection', console.log);
 // API Server Import.
 import express from 'express';
 import path from 'path';
+
 import indexRouter from './routes/index'
-import createAccountRouter from './routes/create_account'
 import getCharactersRouter from './routes/get_characters'
-import createCharacterRouter from './routes/create_character'
-import removeCharacterRouter from './routes/remove_character'
 import getCharacterRouter from './routes/get_character'
 
+import createBattleRouter from './routes/create_battle'
+import createCharacterRouter from './routes/create_character'
+import createAccountRouter from './routes/create_account'
+import createPartyUnit from './routes/create_party_unit'
+
+import removeCharacterRouter from './routes/remove_character'
 
 import {User} from './models/user';
 import {Character} from './models/character';
@@ -55,9 +59,13 @@ app.use('/image', express.static('./uploads'));
 app.use('/api/index', indexRouter);
 
 app.use('/api/create_account', createAccountRouter);
+app.use('/api/create_character', createCharacterRouter);
+app.use('/api/create_battle', createBattleRouter);
+app.use('/api/create_party_unit', createPartyUnit);
+
 app.use('/api/get_characters', getCharactersRouter);
 app.use('/api/get_character', getCharacterRouter);
-app.use('/api/create_character', createCharacterRouter);
+
 app.use('/api/remove_character', removeCharacterRouter);
 
 // API SERVER INIT END.

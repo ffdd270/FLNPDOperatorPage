@@ -8,7 +8,6 @@ const router = express.Router();
 
 router.get('/:id', async  function ( request, response )
 {
-    console.log( " id! !! !!!!!!!!!!!!! ")
     let id : string = request.params.id;
 
     let char = await CharacterController.FindCharacterById( parseInt( id ) );

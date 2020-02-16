@@ -12,7 +12,8 @@ export class Unit
     constructor( character : Character, is_enemy: boolean )
     {
         Unit.uid_count += 1;
-        this.character_unique_id = is_enemy ? Unit.uid_count * -1 : Unit.uid_count;
+        this.unit_unique_id = is_enemy ? Unit.uid_count * -1 : Unit.uid_count;
+        this.db_unique_id = character.id;
 
         this.max_hp = character.max_hp;
         this.max_ap = character.max_ap;
@@ -46,7 +47,7 @@ export class Unit
 
     GetUID( )
     {
-        return this.character_unique_id;
+        return this.unit_unique_id;
     }
 
     GetHp()
@@ -164,8 +165,8 @@ export class Unit
         return dmg;
     }
 
-    readonly character_unique_id : number;
-
+    readonly unit_unique_id : number;
+    readonly db_unique_id : number;
     readonly max_hp : number;
     readonly max_ap : number;
 
@@ -179,5 +180,5 @@ export class Unit
     readonly active_cs_list : CSInstance[];
     private skill_set_instance? : SkillSetInstance;
 
-    private name : string;
+    readonly name : string;
 }

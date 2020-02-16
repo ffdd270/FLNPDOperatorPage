@@ -1,6 +1,20 @@
 import {Character} from "../models/character";
 import {SpriteController} from "../controllers/sprite";
 import {Sprite} from "../models/sprite";
+import {Unit} from "../instance/unit";
+
+async function SetImage( sprite_id : number )
+{
+    let sprite = await SpriteController.FindSpriteById( sprite_id );
+
+    if ( sprite == false )
+    {
+        return false;
+    }
+
+    let sprite_model = <Sprite>( sprite );
+    return sprite_model.sprite_path;
+}
 
 export class CharacterResponse
 {
@@ -27,15 +41,14 @@ export class CharacterResponse
 
     async SetImage( char_model : Character )
     {
-        let sprite = await SpriteController.FindSpriteById( char_model.sprite_id );
+        let image = await SetImage( char_model.sprite_id );
 
-        if ( sprite == false )
+        if ( image == false )
         {
             return false;
         }
 
-        let sprite_model = <Sprite>( sprite );
-        this.image = sprite_model.sprite_path;
+        this.image = <string>( image );
     }
 
     MakeObject( )
@@ -49,6 +62,49 @@ export class CharacterResponse
             max_hp: this.max_hp,
             max_ap: this.max_ap,
             user_id: this.user_id
+        }
+    }
+}
+
+export class UnitResponse
+{
+    uid : number;
+    char_id :number;
+    image! : string;
+    name : string;
+    hp : number;
+    ap : number;
+
+    constructor( unit : Unit )
+    {
+        this.uid = unit.unit_unique_id;
+        this.char_id = unit.db_unique_id;
+        this.name = unit.name;
+        this.hp = unit.GetHp();
+        this.ap = unit.GetAp();
+    }
+
+    async SetImage( sprite_id : number )
+    {
+        let image = await SetImage( sprite_id );
+
+        if ( image == false )
+        {
+            return false;
+        }
+
+        this.image = <string>( image );
+    }
+
+    MakeObject()
+    {
+        return {
+            id: this.uid,
+            char_id: this.char_id,
+            image: this.image,
+            name: this.name,
+            hp: this.hp,
+            ap: this.ap,
         }
     }
 }
