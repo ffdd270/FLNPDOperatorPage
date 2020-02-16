@@ -14,6 +14,7 @@ export class Unit
         Unit.uid_count += 1;
         this.unit_unique_id = is_enemy ? Unit.uid_count * -1 : Unit.uid_count;
         this.db_unique_id = character.id;
+        this.sprite_unique_id = character.sprite_id;
 
         this.max_hp = character.max_hp;
         this.max_ap = character.max_ap;
@@ -167,6 +168,7 @@ export class Unit
 
     readonly unit_unique_id : number;
     readonly db_unique_id : number;
+    readonly sprite_unique_id : number;
     readonly max_hp : number;
     readonly max_ap : number;
 

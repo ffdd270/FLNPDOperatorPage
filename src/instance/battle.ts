@@ -29,8 +29,18 @@ export class Battle
         return this.party.get( id );
     }
 
+    GetAllPartyMember( ) : Unit[]
+    {
+        let units : Unit[] = [];
 
+        for ( let item of this.party )
+        {
+            units.push( item[1] );
+        }
+
+        return units;
+    }
 
     private id : string;
-    private party : Map<number, Unit>;
+    private readonly party : Map<number, Unit>;
 }

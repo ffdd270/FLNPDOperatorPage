@@ -3,7 +3,7 @@ import {SpriteController} from "../controllers/sprite";
 import {Sprite} from "../models/sprite";
 import {Unit} from "../instance/unit";
 
-async function SetImage( sprite_id : number )
+async function AsyncSetImage( sprite_id : number )
 {
     let sprite = await SpriteController.FindSpriteById( sprite_id );
 
@@ -41,7 +41,7 @@ export class CharacterResponse
 
     async SetImage( char_model : Character )
     {
-        let image = await SetImage( char_model.sprite_id );
+        let image = await AsyncSetImage( char_model.sprite_id );
 
         if ( image == false )
         {
@@ -86,7 +86,7 @@ export class UnitResponse
 
     async SetImage( sprite_id : number )
     {
-        let image = await SetImage( sprite_id );
+        let image = await AsyncSetImage( sprite_id );
 
         if ( image == false )
         {
