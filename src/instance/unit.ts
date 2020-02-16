@@ -159,6 +159,18 @@ export class Unit
         return this.active_cs_list;
     }
 
+    GetCSNameList()
+    {
+
+
+        for ( let cs of this.active_cs_list )
+        {
+
+        }
+
+
+    }
+
     DecHp( dmg : number ) : number
     {
         this.hp -= dmg;

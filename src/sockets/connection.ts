@@ -11,7 +11,6 @@ export function connection_on(  io : SocketIO.Server  )
         socket.on('init', function(msg)
         {
             console.log( msg );
-            socket.emit("welcome", 'Welcome, CLIENT! ${msg.name}');
         });
 
         socket.on('get_character_by_name', async function( msg )
