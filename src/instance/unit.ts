@@ -159,13 +159,13 @@ export class Unit
         return this.active_cs_list;
     }
 
-    GetCSNameList()
+    GetCSResponse()
     {
-
+        let cs_name : string[] = [];
 
         for ( let cs of this.active_cs_list )
         {
-
+            cs_name.push( cs.name );
         }
 
 

@@ -2,6 +2,7 @@ import {Character} from "../models/character";
 import {SpriteController} from "../controllers/sprite";
 import {Sprite} from "../models/sprite";
 import {Unit} from "../instance/unit";
+import {CSInstance} from "../instance/cs";
 
 async function AsyncSetImage( sprite_id : number )
 {
@@ -107,4 +108,14 @@ export class UnitResponse
             ap: this.ap,
         }
     }
+}
+
+export class CSResponse
+{
+
+    constructor( cs : CSInstance )
+    {
+
+    }
+
 }
