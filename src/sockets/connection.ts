@@ -1,4 +1,5 @@
 import SocketIO from "socket.io";
+import {ChatSocket} from "./chat_socket";
 
 
 export function connection_on(  io : SocketIO.Server  )
@@ -34,6 +35,10 @@ export function connection_on(  io : SocketIO.Server  )
         {
             console.log('chatMessage.' + msg);
             io.emit('chatMessage', msg);
-        })
-    })
+        });
+
+        ChatSocket.SetSocket(io, socket);
+    });
+
+
 }
