@@ -3,6 +3,7 @@ import {SpriteController} from "../controllers/sprite";
 import {Sprite} from "../models/sprite";
 import {Unit} from "../instance/unit";
 import {CSInstance} from "../instance/cs";
+import {Dice} from "../instance/dice";
 
 async function AsyncSetImage( sprite_id : number )
 {
@@ -15,6 +16,26 @@ async function AsyncSetImage( sprite_id : number )
 
     let sprite_model = <Sprite>( sprite );
     return sprite_model.sprite_path;
+}
+
+export class DiceResponse
+{
+    readonly max_number : number;
+    readonly result_number : number;
+
+    constructor( dice : Dice )
+    {
+        this.max_number = dice.max_number;
+        this.result_number = dice.result_number;
+    }
+
+    MakeObject()
+    {
+        return {
+            max_number: this.max_number,
+            result_number: this.result_number
+        };
+    }
 }
 
 export class CharacterResponse
