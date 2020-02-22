@@ -18,7 +18,36 @@ async function AsyncSetImage( sprite_id : number )
     return sprite_model.sprite_path;
 }
 
-export class DiceResponse
+export interface ResponseResult
+{
+    msg : string;
+    command : string;
+}
+
+export interface Response
+{
+    MakeObject() : ResponseResult;
+}
+
+export class UnknownResponse implements Response
+{
+    private command : string;
+
+    constructor( command : string )
+    {
+        this.command = command
+    }
+
+    MakeObject(): ResponseResult
+    {
+        return {
+            msg: "FAILED. Wrong REQ.",
+            command: this.command
+        }
+    }
+}
+
+export class DiceResponse implements Response
 {
     readonly max_number : number;
     readonly result_number : number;
@@ -32,13 +61,15 @@ export class DiceResponse
     MakeObject()
     {
         return {
+            msg: "OK.",
+            command: "dice",
             max_number: this.max_number,
             result_number: this.result_number
         };
     }
 }
 
-export class CharacterResponse
+export class CharacterResponse implements Response
 {
     id! : number;
     image! : string;
@@ -76,6 +107,9 @@ export class CharacterResponse
     MakeObject( )
     {
         return {
+            command: "character",
+            msg: "OK.",
+
             id: this.id,
             image: this.image,
             name: this.name,
@@ -88,7 +122,7 @@ export class CharacterResponse
     }
 }
 
-export class UnitResponse
+export class UnitResponse implements Response
 {
     uid : number;
     char_id :number;
@@ -121,6 +155,8 @@ export class UnitResponse
     MakeObject()
     {
         return {
+            command: "unit",
+            msg: "OK.",
             id: this.uid,
             char_id: this.char_id,
             image: this.image,
@@ -129,14 +165,4 @@ export class UnitResponse
             ap: this.ap,
         }
     }
-}
-
-export class CSResponse
-{
-
-    constructor( cs : CSInstance )
-    {
-
-    }
-
 }

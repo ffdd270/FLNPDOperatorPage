@@ -1,5 +1,6 @@
 import SocketIO from "socket.io";
 import {ChatSocket} from "./chat_socket";
+import {CommandActions} from "../actions/command";
 
 
 export function connection_on(  io : SocketIO.Server  )
@@ -38,6 +39,10 @@ export function connection_on(  io : SocketIO.Server  )
         });
 
         ChatSocket.SetSocket(io, socket);
+
+
+        // Action Init
+        CommandActions.SetCommands();
     });
 
 
