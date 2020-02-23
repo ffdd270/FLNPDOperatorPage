@@ -73,5 +73,5 @@ export class ChatSocket
 
 
     private static io : SocketIO.Server;
-    private static command_event_func_map : Map<string, CommandEventFunc> = new Map<string, CommandEventFunc>;
+    private static command_event_func_map : Map<string, CommandEventFunc> = new Map<string, CommandEventFunc>();
 }
