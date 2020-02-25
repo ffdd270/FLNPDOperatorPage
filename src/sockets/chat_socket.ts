@@ -46,15 +46,17 @@ export class ChatSocket
 
     private static onListenChat( msg : any )
     {
-        let chat_msg = <string>( msg );
+        let chat_msg = <string>( msg.msg );
+        let chat_talker = <string>( msg.sender );
+
         console.log( chat_msg );
 
         if( chat_msg.startsWith("/") )
         {
-            ChatSocket.ProcCommand( chat_msg )
+            ChatSocket.ProcCommand( chat_msg );
         }
 
-        ChatSocket.io.emit('chat_income', chat_msg );
+        ChatSocket.io.emit('chat_income', { sender: chat_talker, msg: chat_msg } );
     }
 
 
