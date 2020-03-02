@@ -1,4 +1,4 @@
-import express from "express";
+import express, {Request, Response} from "express";
 import {CharacterController} from "../controllers/character";
 import {BattleController} from "../controllers/battle";
 import {Unit} from "../instance/unit";
@@ -8,10 +8,11 @@ import {BattleSocket} from "../sockets/battle_socket";
 
 const router = express.Router();
 
-router.post('/:battle_id', async function( request, response )
+router.post('/', async function( request : Request, response : Response )
 {
-    let battle_id = request.params.battle_id;
+    let battle_id = request.body.battle_id;
     let battle = BattleController.GetBattle( battle_id );
+
 
     let char_id = +request.body.char_id;
 
@@ -36,7 +37,7 @@ router.post('/:battle_id', async function( request, response )
 
     BattleSocket.BroadcastingAddUnit( unit_response );
 
-    response.send(unit_response);
+    return response.send(unit_response);
 });
 
 export default router;
