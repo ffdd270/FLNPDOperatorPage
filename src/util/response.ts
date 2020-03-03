@@ -128,6 +128,7 @@ export class UnitResponse implements Response
     char_id :number;
     image! : string;
     name : string;
+    is_enemy : boolean;
     hp : number;
     ap : number;
 
@@ -138,6 +139,7 @@ export class UnitResponse implements Response
         this.name = unit.name;
         this.hp = unit.GetHp();
         this.ap = unit.GetAp();
+        this.is_enemy = unit.is_enemy;
     }
 
     async SetImage( sprite_id : number )
@@ -163,6 +165,7 @@ export class UnitResponse implements Response
             name: this.name,
             hp: this.hp,
             ap: this.ap,
+            is_enemy: this.is_enemy
         }
     }
 }

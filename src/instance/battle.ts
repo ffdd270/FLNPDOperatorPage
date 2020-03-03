@@ -7,12 +7,13 @@ export class Battle
     {
         this.id = id;
         this.party = new Map<number, Unit>();
+        this.enemy_party = new Map<number, Unit>();
     }
 
-    AddPartyMember( unit : Unit )
+    private static AddMember(unit : Unit, party : Map<number, Unit> )
     {
         let unit_id = unit.unit_unique_id;
-        let is_exist = this.party.get( unit_id );
+        let is_exist = party.get( unit_id );
 
         if( is_exist != undefined )
         {
@@ -20,9 +21,22 @@ export class Battle
         }
 
 
-        this.party.set( unit_id, unit );
+        party.set( unit_id, unit );
         return true;
+
     }
+
+    AddPartyMember( unit : Unit )
+    {
+        Battle.AddMember(unit, this.party);
+    }
+
+
+    AddEnemyMember( enemy : Unit )
+    {
+        Battle.AddMember(enemy, this.enemy_party);
+    }
+
 
     GetPartyMember( id : number )
     {
@@ -43,4 +57,5 @@ export class Battle
 
     private id : string;
     private readonly party : Map<number, Unit>;
+    private readonly enemy_party : Map<number, Unit>;
 }
