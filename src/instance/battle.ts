@@ -20,10 +20,8 @@ export class Battle
             return false;
         }
 
-
         party.set( unit_id, unit );
         return true;
-
     }
 
     AddPartyMember( unit : Unit )

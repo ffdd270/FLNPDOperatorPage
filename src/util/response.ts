@@ -79,7 +79,7 @@ export class CharacterResponse implements Response
     max_hp! : number;
     max_ap! : number;
     user_id : string;
-    skill_set_id! : string;
+    skill_set_id! : number;
 
     constructor( char_model : Character )
     {
@@ -90,6 +90,7 @@ export class CharacterResponse implements Response
         this.max_hp = char_model.max_hp;
         this.max_ap = char_model.max_ap;
         this.user_id = char_model.user_id;
+        this.skill_set_id = char_model.skill_set_id;
     }
 
     async SetImage( char_model : Character )
@@ -117,7 +118,8 @@ export class CharacterResponse implements Response
             sex: this.sex,
             max_hp: this.max_hp,
             max_ap: this.max_ap,
-            user_id: this.user_id
+            user_id: this.user_id,
+            skill_set_id: this.skill_set_id,
         }
     }
 }
