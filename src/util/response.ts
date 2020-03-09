@@ -4,6 +4,7 @@ import {Sprite} from "../models/sprite";
 import {Unit} from "../instance/unit";
 import {CSInstance} from "../instance/cs";
 import {Dice} from "../instance/dice";
+import {Battle} from "../instance/battle";
 
 async function AsyncSetImage( sprite_id : number )
 {
@@ -122,6 +123,28 @@ export class CharacterResponse implements Response
             skill_set_id: this.skill_set_id,
         }
     }
+}
+
+export class BattleResponse implements  Response
+{
+    id : string;
+
+    constructor( battle : Battle )
+    {
+        this.id = battle.id;
+    }
+
+
+
+    MakeObject()
+    {
+        return {
+            command: "battle list",
+            msg: "OK.",
+            id: this.id,
+        };
+    }
+
 }
 
 export class UnitResponse implements Response

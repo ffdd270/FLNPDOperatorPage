@@ -53,7 +53,7 @@ export class Battle
         return units;
     }
 
-    private id : string;
+    readonly id : string;
     private readonly party : Map<number, Unit>;
     private readonly enemy_party : Map<number, Unit>;
 }
