@@ -134,8 +134,6 @@ export class BattleResponse implements  Response
         this.id = battle.id;
     }
 
-
-
     MakeObject()
     {
         return {

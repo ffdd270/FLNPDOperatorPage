@@ -3,7 +3,10 @@ import {BattleController} from "../controllers/battle";
 
 const router = express.Router();
 
-router.post('/', async function( request: Request, response: Response)
+router.get('/', async function( request: Request, response: Response)
 {
-    return response.send( BattleController.GetBattlesResponse( ) );
+     response.send( BattleController.GetBattlesResponse( ) );
 });
+
+
+export default router;

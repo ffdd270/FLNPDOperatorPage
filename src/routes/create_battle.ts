@@ -13,7 +13,7 @@ router.post('/', async function( request : Request, response: Response )
     }
 
     BattleController.CreateBattle( battle_id );
-    return response.send(battle_id);
+    response.send(battle_id);
 });
 
 export default router;

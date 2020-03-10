@@ -11,6 +11,7 @@ import indexRouter from './routes/index'
 import getCharactersRouter from './routes/get_characters'
 import getCharacterRouter from './routes/get_character'
 import getPartyUnits from './routes/get_party_units'
+import getBattles from './routes/get_battles'
 
 import createBattleRouter from './routes/create_battle'
 import createCharacterRouter from './routes/create_character'
@@ -67,6 +68,7 @@ app.use('/api/create_party_unit', createPartyUnit);
 
 app.use('/api/get_characters', getCharactersRouter);
 app.use('/api/get_character', getCharacterRouter);
+app.use('/api/get_battles', getBattles);
 app.use('/api/get_party_units', getPartyUnits);
 
 app.use('/api/remove_character', removeCharacterRouter);

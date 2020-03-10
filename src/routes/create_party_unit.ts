@@ -46,7 +46,7 @@ router.post('/', async function( request : Request, response : Response )
     await unit_response.SetImage( char_model.sprite_id );
     BattleSocket.BroadcastingAddUnit( unit_response );
 
-    return response.send(unit_response);
+    response.send(unit_response);
 });
 
 export default router;
