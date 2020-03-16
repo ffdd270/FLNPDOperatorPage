@@ -31,7 +31,6 @@ describe( 'Battle Test', ()=>
 
         let character_model =  await TestHelper.makeCharacter( user_model, "키리사키 키리코", 1 );
         let kiri_unit = new Unit( character_model, false );
-
         let battle = BattleController.CreateBattle( "Good Battle" );
         expect(battle).not.equal( undefined );
 
@@ -43,6 +42,27 @@ describe( 'Battle Test', ()=>
         battle.AddPartyMember( kiri_unit );
         let unit = battle.GetPartyMember( kiri_unit.unit_unique_id );
         expect(unit).to.equal( kiri_unit );
+    });
+
+    it("create battle, push unit, and enemy.", async ( ) =>
+    {
+        await initDataBase();
+
+        let character_model =  await TestHelper.makeCharacter( user_model, "키리사키 키리코", 1 );
+
+        let friend_unit = new Unit( character_model, false );
+        let enemy_unit = new Unit( character_model, true );
+        let battle = BattleController.CreateBattle( "Good Battle" );
+
+        if ( battle == undefined )
+        {
+            return false;
+        }
+
+        battle.AddPartyMember( friend_unit );
+        battle.AddEnemyMember( enemy_unit );
+
+        expect( battle.GetAllBattleMember().length ).to.equal( 2 );
     });
 
 });

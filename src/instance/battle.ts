@@ -53,6 +53,24 @@ export class Battle
         return units;
     }
 
+    GetAllBattleMember() : Unit[]
+    {
+        let units : Unit[] = [];
+
+        for ( let item of this.party )
+        {
+            units.push( item[1] );
+        }
+
+        for ( let item of this.enemy_party )
+        {
+            units.push( item[1] );
+        }
+
+        return units;
+    }
+
+
     IsHaveTurn( uid : number ) : boolean
     {
         if( this.on_turn_unit == null )
