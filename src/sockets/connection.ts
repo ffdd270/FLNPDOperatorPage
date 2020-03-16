@@ -1,5 +1,5 @@
 import SocketIO from "socket.io";
-import {ChatSocket} from "./chat_socket";
+import {CommandSocket} from "./command_socket";
 import {CommandActions} from "../actions/command";
 
 
@@ -38,7 +38,7 @@ export function connection_on(  io : SocketIO.Server  )
             io.emit('chatMessage', msg);
         });
 
-        ChatSocket.SetSocket(io, socket);
+        CommandSocket.SetSocket(io, socket);
 
 
         // Action Init

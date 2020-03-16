@@ -30,9 +30,31 @@ export interface Response
     MakeObject() : ResponseResult;
 }
 
+
+export class ErrorResponse implements Response
+{
+    readonly command : string;
+    readonly error_string : string;
+
+    constructor( command : string, error_string : string )
+    {
+        this.command = command;
+        this.error_string = error_string;
+    }
+
+    MakeObject()
+    {
+        return {
+            msg: "ON COMMAND PARSING ERROR. CHECK ERROR STRING.",
+            command: this.command,
+            error_string: this.error_string,
+        }
+    }
+}
+
 export class UnknownResponse implements Response
 {
-    private command : string;
+    readonly command : string;
 
     constructor( command : string )
     {
@@ -46,6 +68,26 @@ export class UnknownResponse implements Response
             command: this.command
         }
     }
+}
+
+export class TurnResponse implements Response
+{
+    readonly unit_uid : number;
+
+    constructor(  unit : Unit )
+    {
+        this.unit_uid = unit.unit_unique_id;
+    }
+
+    MakeObject()
+    {
+        return{
+            msg : "OK",
+            command : "turn",
+            turn_unit_uid : this.unit_uid
+        };
+    }
+
 }
 
 export class DiceResponse implements Response
@@ -62,7 +104,7 @@ export class DiceResponse implements Response
     MakeObject()
     {
         return {
-            msg: "OK.",
+            msg: "OK",
             command: "dice",
             max_number: this.max_number,
             result_number: this.result_number
@@ -110,7 +152,7 @@ export class CharacterResponse implements Response
     {
         return {
             command: "character",
-            msg: "OK.",
+            msg: "OK",
 
             id: this.id,
             image: this.image,
@@ -138,7 +180,7 @@ export class BattleResponse implements  Response
     {
         return {
             command: "battle list",
-            msg: "OK.",
+            msg: "OK",
             id: this.id,
         };
     }
@@ -181,7 +223,7 @@ export class UnitResponse implements Response
     {
         return {
             command: "unit",
-            msg: "OK.",
+            msg: "OK",
             id: this.uid,
             char_id: this.char_id,
             image: this.image,

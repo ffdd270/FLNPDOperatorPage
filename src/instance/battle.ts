@@ -53,7 +53,31 @@ export class Battle
         return units;
     }
 
+    IsHaveTurn( uid : number ) : boolean
+    {
+        if( this.on_turn_unit == null )
+        {
+            return false;
+        }
+
+        return this.on_turn_unit.unit_unique_id == uid
+    }
+
+    SetHaveTurnUnit( uid : number ) : Unit | null
+    {
+        let party_member = this.party.get(uid);
+
+        if (party_member == undefined)
+        {
+            return null;
+        }
+
+        this.on_turn_unit = party_member;
+        return this.on_turn_unit;
+    }
+
     readonly id : string;
+    private on_turn_unit : Unit | null = null;
     private readonly party : Map<number, Unit>;
     private readonly enemy_party : Map<number, Unit>;
 }
