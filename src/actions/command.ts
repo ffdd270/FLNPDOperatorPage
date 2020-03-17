@@ -20,7 +20,7 @@ export class CommandActions
 
     private static ProcTurn(  command : string, params : string, opts : Map<string, string>  ) : Response
     {
-        if( params != "" )
+        if( params == "" )
         {
             return new ErrorResponse( command, "Params Was NULL" );
         }
