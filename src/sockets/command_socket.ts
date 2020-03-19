@@ -48,7 +48,7 @@ export class CommandSocket
         CommandSocket.io.emit("command", response.MakeObject() );
     }
 
-    private static onListenCommand( msg : any )
+    private static onListenChat( msg : any )
     {
         let chat_msg = <string>( msg.msg );
         let chat_talker = <string>( msg.sender );
@@ -64,12 +64,26 @@ export class CommandSocket
         CommandSocket.io.emit('chat_income', { sender: chat_talker, msg: chat_msg } );
     }
 
+    private static onListenCommand(  msg : any )
+    {
+        let command_msg = <string>( msg.msg );
+        let command_talker = <string>( msg.sender );
+        let command_battle_id = <string>( msg.battle_id );
+
+        if(!command_msg.startsWith("/"))
+        {
+            command_msg = "/" + command_msg;
+        }
+
+        CommandSocket.ProcCommand( command_msg, command_battle_id );
+        CommandSocket.io.emit('chat_income', { sender: command_talker, msg: command_msg } );
+    }
 
     static SetSocket( io : SocketIO.Server, socket : SocketIO.Socket )
     {
         this.io = io;
 
-        socket.on( 'chat', this.onListenCommand );
+        socket.on( 'chat', this.onListenChat );
         socket.on( 'command', this.onListenCommand );
 
     }
