@@ -49,6 +49,15 @@ export class CommandActions
         return new TurnResponse( unit );
     }
 
+
+    private static ProcAttack( command : string, params : string, opts : Map<string, string> ) : Response
+    {
+        if( params == "" )
+        {
+        }
+
+    }
+
     static SetCommands()
     {
         CommandSocket.AddCommandEventFunction("dice", this.ProcDice );

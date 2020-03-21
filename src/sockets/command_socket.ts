@@ -70,9 +70,18 @@ export class CommandSocket
         let command_talker = <string>( msg.sender );
         let command_battle_id = <string>( msg.battle_id );
 
-        if(!command_msg.startsWith("/"))
+        if ( command_msg != undefined && !command_msg.startsWith("/") )
         {
             command_msg = "/" + command_msg;
+        }
+
+
+        if ( msg.request != undefined )
+        {
+            let command_request = <string>( msg.request );
+            let command_params = <string>( msg.params );
+
+            command_msg = command_request + " " + command_params
         }
 
         CommandSocket.ProcCommand( command_msg, command_battle_id );
