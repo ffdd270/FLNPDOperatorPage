@@ -5,6 +5,7 @@ import {Unit} from "../instance/unit";
 import {CSInstance} from "../instance/cs";
 import {Dice} from "../instance/dice";
 import {Battle} from "../instance/battle";
+import {AttackResult, DiceResult} from "../actions/unit";
 
 async function AsyncSetImage( sprite_id : number )
 {
@@ -68,6 +69,30 @@ export class UnknownResponse implements Response
             command: this.command
         }
     }
+}
+
+export class AttackResponse implements  Response
+{
+    attack_result : AttackResult;
+
+
+    constructor( attack_result : AttackResult )
+    {
+        this.attack_result = attack_result;
+    }
+
+    MakeObject()
+    {
+        return{
+            msg : "OK",
+            command : "attack",
+            damages      : this.attack_result.damages,
+            invoker_dice : this.attack_result.invoker_dice,
+            targets_dice : this.attack_result.targets_dice,
+        }
+
+    }
+
 }
 
 export class TurnResponse implements Response

@@ -1,8 +1,9 @@
 import {CommandSocket} from "../sockets/command_socket";
-import {DiceResponse, ErrorResponse, Response, TurnResponse, UnknownResponse} from "../util/response";
+import {AttackResponse, DiceResponse, ErrorResponse, Response, TurnResponse, UnknownResponse} from "../util/response";
 import {Dice} from "../instance/dice";
 import {BattleController} from "../controllers/battle";
 import {Battle} from "../instance/battle";
+import {UnitAction} from "./unit";
 
 class BattleValueStruct
 {
@@ -93,6 +94,24 @@ export class CommandActions
         }
 
         return_value = <BattleValueStruct>( return_value );
+
+        let target_unit_uid = return_value.unit_uid;
+        let target_unit = return_value.battle.GetBattleMember( target_unit_uid );
+        if( target_unit == undefined )
+        {
+            return new ErrorResponse( command, "WRONG UNIT UID");
+        }
+
+        let attacking_unit = return_value.battle.GetHaveTurnUnit();
+        if( attacking_unit == null )
+        {
+            return new ErrorResponse( command, "EVERYBODY DOSE NOT HAVE TURN.");
+        }
+
+        // 지금은 단일 공격만..
+        let attack_result = UnitAction.AttackUnit( attacking_unit,[target_unit], target_unit );
+
+        return new AttackResponse( attack_result );
     }
 
     static SetCommands()

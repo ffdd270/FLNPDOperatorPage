@@ -39,9 +39,16 @@ export class Battle
     }
 
 
+    // 아군만
     GetPartyMember( id : number )
     {
         return this.party.get( id );
+    }
+
+    //전체다
+    GetBattleMember( id : number )
+    {
+        return this.all_member.get( id );
     }
 
     GetAllPartyMember( ) : Unit[]
@@ -77,6 +84,11 @@ export class Battle
         }
 
         return this.on_turn_unit.unit_unique_id == uid
+    }
+
+    GetHaveTurnUnit( ) : Unit | null
+    {
+        return this.on_turn_unit;
     }
 
     SetHaveTurnUnit( uid : number ) : Unit | null
