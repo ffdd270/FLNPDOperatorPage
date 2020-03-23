@@ -162,10 +162,10 @@ export class UnitAction
         {
             result.is_invalid = true;
             result.invalid_cause = "TARGET WAS INVALID.";
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     // 평타
@@ -201,7 +201,7 @@ export class UnitAction
 
         let attack_targets : Unit[] | null = this.GetTargets( attack_skill.GetTargetArrange(), targets, target );
 
-        if( !this.IsFailedAttack( result, attack_targets ) )
+        if( this.IsFailedAttack( result, attack_targets ) )
         {
             return result;
         }

@@ -9,6 +9,7 @@ class BattleValueStruct
 {
     public unit_uid : number;
     public battle : Battle;
+    readonly not_response : boolean = true;
 
     constructor( unit_uid : number, battle_id : Battle  )
     {
@@ -61,9 +62,9 @@ export class CommandActions
 
     private static ProcTurn(  command : string, params : string, opts : Map<string, string>  ) : Response
     {
-        let return_value = this.GetBattleValues( command, params, opts );
+        let return_value = CommandActions.GetBattleValues( command, params, opts );
 
-        if ( return_value instanceof Response )
+        if ( ( <BattleValueStruct>(return_value) ).not_response === undefined )
         {
             return <Response>(return_value);
         }
@@ -86,9 +87,9 @@ export class CommandActions
 
     private static ProcAttack( command : string, params : string, opts : Map<string, string> ) : Response
     {
-        let return_value = this.GetBattleValues( command, params, opts );
+        let return_value = CommandActions.GetBattleValues( command, params, opts );
 
-        if ( return_value instanceof Response )
+        if ( ( <BattleValueStruct>(return_value) ).not_response === undefined )
         {
             return <Response>(return_value);
         }
@@ -116,9 +117,9 @@ export class CommandActions
 
     static SetCommands()
     {
-        CommandSocket.AddCommandEventFunction("dice", this.ProcDice );
-        CommandSocket.AddCommandEventFunction("turn", this.ProcTurn );
-        CommandSocket.AddCommandEventFunction("attack", this.ProcAttack );
-}
+        CommandSocket.AddCommandEventFunction("dice", CommandActions.ProcDice );
+        CommandSocket.AddCommandEventFunction("turn", CommandActions.ProcTurn );
+        CommandSocket.AddCommandEventFunction("attack", CommandActions.ProcAttack );
+    }
 
 }

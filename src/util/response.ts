@@ -20,6 +20,19 @@ async function AsyncSetImage( sprite_id : number )
     return sprite_model.sprite_path;
 }
 
+
+function MapToObject<K, V>( map :  Map<K, V> )
+{
+    let object : any = {};
+
+    map.forEach( ( v, k ) =>
+    {
+        object[k] = v;
+    });
+
+    return object;
+}
+
 export interface ResponseResult
 {
     msg : string;
@@ -83,12 +96,14 @@ export class AttackResponse implements  Response
 
     MakeObject()
     {
-        return{
+        return {
             msg : "OK",
             command : "attack",
-            damages      : this.attack_result.damages,
-            invoker_dice : this.attack_result.invoker_dice,
-            targets_dice : this.attack_result.targets_dice,
+            damages      : MapToObject(this.attack_result.damages),
+            invoker_dice : MapToObject(this.attack_result.invoker_dice),
+            targets_dice : MapToObject(this.attack_result.targets_dice),
+            is_invalid : this.attack_result.is_invalid,
+            invalid_cause : this.attack_result.invalid_cause,
         }
 
     }
