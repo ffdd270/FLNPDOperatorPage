@@ -118,6 +118,7 @@ export class CommandActions
     {
         CommandSocket.AddCommandEventFunction("dice", this.ProcDice );
         CommandSocket.AddCommandEventFunction("turn", this.ProcTurn );
+        CommandSocket.AddCommandEventFunction("attack", this.ProcAttack );
 }
 
 }
